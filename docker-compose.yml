@@ -10,7 +10,7 @@ services:
       - ORACLE_PORT=1521
       - ORACLE_SERVICE=ORCL
       - ORACLE_USER=sys
-      - ORACLE_PASSWORD=oracle
+      - ORACLE_PASSWORD=Oracle123!
     depends_on:
       - oracle
     networks:
@@ -19,7 +19,7 @@ services:
   oracle:
     image: gvenzl/oracle-xe:21-slim
     environment:
-      - ORACLE_PASSWORD=oracle
+      - ORACLE_PASSWORD=Oracle123!
     ports:
       - "1521:1521"
     volumes:
