@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        .message { color: #333; font-size: 18px; }
+        .data { margin-top: 20px; }
+        table { margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Result</h1>
+    <p class="message">{{ message }}</p>
+    {% if data %}
+    <div class="data">
+        <h3>Query Result:</h3>
+        <table>
+            {% for row in data %}
+            <tr>
+                {% for col in row %}
+                <td>{{ col }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+    <a href="/">Back to Login</a>
+</body>
+</html>

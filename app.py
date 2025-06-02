@@ -21,32 +21,29 @@ def get_db_connection():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        
-        # Vulnerable SQL query (no parameterization)
-        query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
-        try:
-            connection = get_db_connection()
-            cursor = connection.cursor()
-            cursor.execute(query)
-            result = cursor.fetchall()
-            cursor.close()
-            connection.close()
-            
-            if result:
-                return render_template('result.html', message="Login successful!", data=result)
-            else:
-                return render_template('result.html', message="Login failed. Invalid credentials.")
-        except cx_Oracle.DatabaseError as e:
-            return render_template('result.html', message=f"Database error: {str(e)}")
-    
     return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    
+    # Vulnerable SQL query (no parameterization)
+    query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        
+        if result:
+            return render_template('result.html', message="Login successful!", data=result)
+        else:
+            return render_template('result.html', message="Login failed. Invalid credentials.")
+    except cx_Oracle.DatabaseError as e:
+        return render_template('result.html', message=f"Database error: {str(e)}")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
